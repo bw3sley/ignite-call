@@ -1,8 +1,10 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import { unstable_getServerSession } from 'next-auth'
+
 import { buildNextAuthOptions } from '../auth/[...nextauth].api'
 
 import { z } from 'zod'
+
 import { prisma } from '@/src/lib/prisma'
 
 const timeIntervalsBodySchema = z.object({
@@ -32,6 +34,7 @@ export default async function handler(
   if (!session) {
     return res.status(401).end()
   }
+
   const { intervals } = timeIntervalsBodySchema.parse(req.body)
 
   await Promise.all(
